@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import Footer from '../Footer';
+import Footer from '../../components/Footer';
 
 describe('Footer component', () => {
   test('renderiza todos os desenvolvedores com seus links e imagens', () => {

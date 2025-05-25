@@ -1,6 +1,6 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import Favorites from '../Favorites';
+import Favorites from '../../components/Favorites';
 
 jest.mock('../../actions/index', () => ({
   fetchFavoritos: jest.fn(),

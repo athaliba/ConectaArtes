@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import SearchComponent from '../SearchComponent';
+import SearchComponent from '../../components/SearchComponent';
 
 describe('SearchComponent - renderização básica', () => {
   test('renderiza título, input e botão', () => {

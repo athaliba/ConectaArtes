@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import Login from '../Login';
+import Login from '../../components/Login';
 
 // Mock do loginUser para controlar o retorno da chamada
 jest.mock('../../actions/index', () => ({

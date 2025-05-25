@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import SearchComponent from '../SearchComponent';
+import SearchComponent from '../../components/SearchComponent';
 import * as toasts from '../../components/toasts/index';
 
 jest.mock('../../components/toasts/index'); // Mocka o módulo de toasts

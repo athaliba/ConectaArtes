@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import Favorites from '../Favorites';
+import Favorites from '../../components/Favorites';
 
 jest.mock('../../actions/index', () => ({
   fetchFavoritos: jest.fn(),

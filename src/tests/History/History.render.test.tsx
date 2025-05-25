@@ -1,5 +1,5 @@
 import { render, screen, waitFor } from '@testing-library/react';
-import History from '../History';
+import History from '../../components/History';
 
 jest.mock('../../actions/index', () => ({
   fetchHistorico: jest.fn(),

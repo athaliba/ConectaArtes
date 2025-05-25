@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import Register from '../Register';
+import Register from '../../components/Register';
 import { BrowserRouter } from 'react-router-dom';
 
 describe('Register render tests', () => {

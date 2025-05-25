@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-import Header from '../Header';
+import Header from '../../components/Header';
 
 describe('Header component - renderização básica', () => {
   test('exibe botões LOGIN e REGISTRAR quando não está logado', () => {
