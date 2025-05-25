@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import AboutSection from '../AboutSection';
+import AboutSection from '../../components/AboutSection';
 
 describe('AboutSection component', () => {
   beforeEach(() => {

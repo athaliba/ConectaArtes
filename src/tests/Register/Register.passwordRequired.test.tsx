@@ -1,10 +1,10 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import Register from '../Register';
+import Register from '../../components/Register';
 import { BrowserRouter } from 'react-router-dom';
 
-describe('Register email required validation', () => {
-  test('does not submit form if email is empty', async () => {
+describe('Register password required validation', () => {
+  test('does not submit form if password is empty', async () => {
     const mockOnRegisterSuccess = jest.fn();
 
     render(
@@ -13,12 +13,11 @@ describe('Register email required validation', () => {
       </BrowserRouter>
     );
 
-    // Preenche todos os campos menos o email
+    // Preenche todos os campos menos a senha
     await userEvent.type(screen.getByPlaceholderText(/nome completo/i), 'Nome Teste');
     await userEvent.type(screen.getByPlaceholderText(/nome de usuário/i), 'usuario123');
-    // email não preenche
-
-    await userEvent.type(screen.getByPlaceholderText(/senha/i), 'Senha123!');
+    await userEvent.type(screen.getByPlaceholderText(/e-mail/i), 'email@teste.com');
+    // senha não preenche
 
     const submitButton = screen.getByRole('button', { name: /registrar/i });
 
@@ -27,7 +26,7 @@ describe('Register email required validation', () => {
     // Verifica que a função de sucesso NÃO foi chamada
     expect(mockOnRegisterSuccess).not.toHaveBeenCalled();
 
-    // O input de email deve estar inválido
-    expect(screen.getByPlaceholderText(/e-mail/i)).toBeInvalid();
+    // O input de senha deve estar inválido
+    expect(screen.getByPlaceholderText(/senha/i)).toBeInvalid();
   });
 });

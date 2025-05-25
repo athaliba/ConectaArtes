@@ -6,16 +6,15 @@ const config: Config = {
   transform: {
     '^.+\\.(ts|tsx)$': 'ts-jest',
   },
-  setupFilesAfterEnv: ['<rootDir>/src/setupTests.ts'], // Importa jest-dom
-  testMatch: ['**/?(*.)+(test).[tj]s?(x)'], // Procura arquivos .test.ts, .test.tsx etc.
+  setupFilesAfterEnv: ['<rootDir>/src/setupTests.ts'],  // <-- aqui, dentro do objeto config
+  testMatch: ['**/?(*.)+(test).[tj]s?(x)'],
   moduleNameMapper: {
-  '\\.(css|less|sass|scss)$': 'identity-obj-proxy',
-  '\\.(jpg|jpeg|png|gif|svg)$': '<rootDir>/src/mocks/fileMock.js',
-},
-
+    '\\.(css|less|sass|scss)$': 'identity-obj-proxy',
+    '\\.(jpg|jpeg|png|gif|svg)$': '<rootDir>/src/mocks/fileMock.js',
+  },
   globals: {
     'ts-jest': {
-      tsconfig: 'tsconfig.app.json', // Usa seu tsconfig do app
+      tsconfig: 'tsconfig.app.json',
     },
   },
 };

@@ -1,6 +1,6 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import Login from '../Login';
+import Login from '../../components/Login';
 
 jest.mock('../../actions/index', () => ({
   loginUser: jest.fn(),

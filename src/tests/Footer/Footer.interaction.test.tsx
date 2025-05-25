@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import Footer from '../Footer';
+import Footer from '../../components/Footer';
 
 describe('Footer interaction tests', () => {
   test('os links dos desenvolvedores são clicáveis e possuem href correto', async () => {

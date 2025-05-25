@@ -1,5 +1,5 @@
 import { render, screen, waitFor } from '@testing-library/react';
-import History from '../History';
+import History from '../../components/History';
 
 jest.mock('../../actions/index', () => ({
   fetchHistorico: jest.fn(),
@@ -27,11 +27,15 @@ describe('History component - renderização básica', () => {
   });
 
   test('exibe mensagem de erro quando fetch falha', async () => {
+    jest.spyOn(console, 'error').mockImplementation(() => {}); // suprime erros esperados
+
     (fetchHistorico as jest.Mock).mockRejectedValue(new Error('Erro de rede'));
     render(<History token="fake-token" />);
     await waitFor(() => {
       expect(screen.getByText(/erro ao buscar histórico/i)).toBeInTheDocument();
     });
+
+    (console.error as jest.Mock).mockRestore(); // restaura depois
   });
 
   test('exibe histórico quando dados são carregados', async () => {
@@ -42,7 +46,7 @@ describe('History component - renderização básica', () => {
     (fetchHistorico as jest.Mock).mockResolvedValue(mockData);
 
     render(<History token="fake-token" />);
-    
+
     for (const entry of mockData) {
       await waitFor(() => {
         expect(screen.getByText(new RegExp(entry.cep))).toBeInTheDocument();
