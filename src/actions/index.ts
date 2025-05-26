@@ -2,7 +2,7 @@
 
 export const loginUser = async (emailOrUsername: string, password: string) => {
   try {
-    const response = await fetch('http://localhost:3000/users/login', {
+    const response = await fetch('https://backend-rankeat.vercel.app/users/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -32,7 +32,7 @@ export const loginUser = async (emailOrUsername: string, password: string) => {
 
 export const registerUser = async (name: string, username: string, email: string, password: string) => {
   try {
-    const response = await fetch('http://localhost:3000/users/register', {
+    const response = await fetch('https://backend-rankeat.vercel.app/users/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -59,7 +59,7 @@ export const registerUser = async (name: string, username: string, email: string
 
 export const fetchFavoritos = async (userId: string, token: string) => {
   try {
-    const response = await fetch(`http://localhost:3000/favorites/${userId}`, {
+    const response = await fetch(`https://backend-rankeat.vercel.app/favorites/${userId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -91,7 +91,7 @@ export const addFavorito = async (
   token: string
 ) => {
   try {
-    const response = await fetch(`http://localhost:3000/favorites`, {
+    const response = await fetch(`https://backend-rankeat.vercel.app/favorites`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -121,7 +121,7 @@ export const removeFavorito = async (
   token: string
 ) => {
   try {
-    const response = await fetch(`http://localhost:3000/favorites/${userId}/${restaurantId}`, {
+    const response = await fetch(`https://backend-rankeat.vercel.app/favorites/${userId}/${restaurantId}`, {
       method: 'DELETE',
       headers: {
         Authorization: `Bearer ${token}`,
@@ -147,7 +147,7 @@ export const removeFavorito = async (
 
 export const fetchHistorico = async (token: string, limit = 10) => {
   try {
-    const response = await fetch(`http://localhost:3000/search-history?limit=${limit}`, {
+    const response = await fetch(`https://backend-rankeat.vercel.app/search-history?limit=${limit}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -180,7 +180,7 @@ export const addHistorico = async (
   token: string
 ) => {
   try {
-    const response = await fetch(`http://localhost:3000/search-history`, {
+    const response = await fetch(`https://backend-rankeat.vercel.app/search-history`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
