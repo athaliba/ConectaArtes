@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { FaMapMarkerAlt, FaStar } from 'react-icons/fa';
+import { FaMapMarkerAlt, FaStar, FaRegCommentDots } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
-import { addFavorito, removeFavorito, addHistorico, fetchFavoritos } from '../actions'; 
+import { addFavorito, removeFavorito, addHistorico, fetchFavoritos } from '../actions';
 import { notifyError, notifySuccess } from '../components/toasts/index';
 
 interface Restaurante {
@@ -30,22 +31,21 @@ const SearchRestaurants: React.FC<SearchRestaurantsProps> = ({ userId, token }) 
   const [cepError, setCepError] = useState<string>('');
   const [favoriteIds, setFavoriteIds] = useState<Set<string>>(new Set());
 
+  const navigate = useNavigate();
+
   const apiKeyFoursquare = 'fsq3lB+7CQYRL4TDNQ0lkCOQ8Cb9fWpRXrYiWUSSvYlsysc=';
   const apiKeyGeocoding = 'AIzaSyBJaZFuZvi8axZBiwxYeEumv4gMP0ti54o';
 
   const validarCep = (inputCep: string) => {
     const cepRegex = /^[0-9]{8}$/;
     if (!cepRegex.test(inputCep)) {
-      if (inputCep.length < 8) notifyError('O CEP deve conter 8 dígitos.');
-      // else setCepError('O CEP deve conter apenas números.');
-      notifyError('O CEP deve conter apenas números.');
+      notifyError('O CEP deve conter apenas números e ter 8 dígitos.');
       return false;
     }
     setCepError('');
     return true;
   };
 
-  // Função para atualizar os favoritos do usuário no estado
   const atualizarFavoritos = async () => {
     try {
       const favoritos: Favorito[] = await fetchFavoritos(userId, token);
@@ -62,7 +62,6 @@ const SearchRestaurants: React.FC<SearchRestaurantsProps> = ({ userId, token }) 
     setRestaurants([]);
 
     if (!cep) {
-      // alert('Por favor, insira o CEP.');
       notifyError('Por favor, insira o CEP.');
       return;
     }
@@ -79,29 +78,18 @@ const SearchRestaurants: React.FC<SearchRestaurantsProps> = ({ userId, token }) 
         const longitude = data.results[0].geometry.location.lng;
 
         try {
-          await addHistorico(
-            {
-              cep,
-              latitude,
-              longitude,
-              userId,
-            },
-            token
-          );
-          console.log('Histórico salvo com sucesso');
+          await addHistorico({ cep, latitude, longitude, userId }, token);
         } catch (error) {
           console.error('Erro ao salvar histórico:', error);
         }
 
         await buscarRestaurantes(latitude, longitude);
-        await atualizarFavoritos(); // Atualiza favoritos após buscar restaurantes
+        await atualizarFavoritos();
       } else {
-        // setError('Não foi possível encontrar as coordenadas para esse CEP.');
         notifyError('Não foi possível encontrar as coordenadas para esse CEP.');
       }
     } catch (error) {
       console.error('Erro ao buscar coordenadas do CEP:', error);
-      // setError('Ocorreu um erro ao buscar o CEP.');
       notifyError('Ocorreu um erro ao buscar o CEP.');
     }
   };
@@ -109,7 +97,6 @@ const SearchRestaurants: React.FC<SearchRestaurantsProps> = ({ userId, token }) 
   const buscarRestaurantes = async (latitude: number, longitude: number) => {
     try {
       const endpoint = `https://api.foursquare.com/v3/places/search?ll=${latitude},${longitude}&radius=1000&limit=5&categories=13065`;
-
       const response = await axios.get(endpoint, {
         headers: { Authorization: apiKeyFoursquare },
       });
@@ -119,12 +106,10 @@ const SearchRestaurants: React.FC<SearchRestaurantsProps> = ({ userId, token }) 
         setError('');
       } else {
         setRestaurants([]);
-        // setError('Nenhum restaurante encontrado nas proximidades.');
         notifyError('Nenhum restaurante encontrado nas proximidades.');
       }
     } catch (error) {
       console.error('Erro ao buscar restaurantes:', error);
-      // setError('Ocorreu um erro ao buscar os restaurantes.');
       notifyError('Ocorreu um erro ao buscar os restaurantes.');
     }
   };
@@ -156,7 +141,6 @@ const SearchRestaurants: React.FC<SearchRestaurantsProps> = ({ userId, token }) 
       }
     } catch (error) {
       console.error('Erro ao alterar favorito:', error);
-      // alert('Erro ao alterar favorito');
       notifyError('Erro ao alterar favorito');
     }
   };
@@ -177,7 +161,6 @@ const SearchRestaurants: React.FC<SearchRestaurantsProps> = ({ userId, token }) 
           placeholder="Ex: 01001000"
           className="w-full p-2 border border-gray-300 rounded-md mb-4"
         />
-
         {cepError && <div className="text-red-500 text-sm mb-4">{cepError}</div>}
 
         <button
@@ -218,8 +201,12 @@ const SearchRestaurants: React.FC<SearchRestaurantsProps> = ({ userId, token }) 
                     <p><strong>Distância:</strong> {(restaurant.distance / 1000).toFixed(2)} km</p>
                   </div>
 
-                  <div className="flex flex-col items-center gap-8">
-                    <FaMapMarkerAlt className="text-red-600 transition-transform duration-300 group-hover:scale-125 group-hover:-translate-y-1" size={24} />
+                  <div className="flex flex-col items-center gap-6">
+                    <FaMapMarkerAlt
+                      className="text-red-600 transition-transform duration-300 group-hover:scale-125 group-hover:-translate-y-1"
+                      size={24}
+                    />
+
                     <button
                       aria-label={isFav ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}
                       onClick={() => toggleFavorite(restaurant)}
@@ -227,6 +214,20 @@ const SearchRestaurants: React.FC<SearchRestaurantsProps> = ({ userId, token }) 
                     >
                       <FaStar size={24} className={isFav ? 'text-yellow-400' : 'text-gray-400'} />
                     </button>
+
+                    <button
+                      aria-label="Comentar"
+                      onClick={() =>
+                        navigate(`/comentarios/${restaurant.fsq_id}`, {
+                          state: { restaurantName: restaurant.name },
+                        })
+                      }
+                      className="text-blue-600 hover:text-blue-800 transition-colors"
+                      title="Comentar"
+                    >
+                      <FaRegCommentDots size={22} />
+                    </button>
+
                   </div>
                 </div>
               );

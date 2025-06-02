@@ -42,6 +42,14 @@ const Header: React.FC<HeaderProps> = ({ onLogout, isLoggedIn }) => {
             >
               HISTÓRICO
             </button>
+
+            <button
+              onClick={() => navigate('/comentarios')}
+              className="text-white text-xl font-bold cursor-pointer hover:text-red-300 transition-colors"
+            >
+              COMENTÁRIOS
+            </button>
+
             <button
               onClick={() => navigate('/sobre')}
               className="text-white text-xl font-bold cursor-pointer hover:text-red-300 transition-colors"
