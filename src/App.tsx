@@ -9,11 +9,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import Login from './components/Login';
 import Register from './components/Register';
-import SearchComponent from './components/SearchComponent';
-import Favorites from './components/Favorites';
-import History from './components/History';
-import AboutSection from './components/AboutSection';
-import RestaurantComments from './components/RestaurantComments'; 
+
 
 function App() {
   const [loadingAuth, setLoadingAuth] = useState(true);
@@ -72,29 +68,6 @@ function App() {
             </>
           ) : (
             <>
-              <Route
-                path="/"
-                element={
-                  <SearchComponent
-                    userId={userId!}
-                    token={token}
-                  />
-                }
-              />
-              <Route
-                path="/favoritos"
-                element={<Favorites userId={userId!} token={token} />}
-              />
-              <Route
-                path="/historico"
-                element={<History token={token} />}
-              />
-              <Route
-                path="/comentarios/:id"
-                element={<RestaurantComments token={token} userId={userId!} />}
-              />
-              <Route path="/sobre" element={<AboutSection />} />
-              <Route path="*" element={<Navigate to="/" replace />} />
             </>
           )}
         </Routes>
