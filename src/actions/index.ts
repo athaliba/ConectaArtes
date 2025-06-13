@@ -54,3 +54,95 @@ export const registerUser = async (name: string, username: string, email: string
     }
   }
 };
+
+// BUSCAR TODOS OS PRODUTOS
+export const fetchProducts = async () => {
+  const response = await fetch('http://localhost:3000/products/list');
+  return response.json();
+};
+
+// CADASTRAR NOVO PRODUTO
+export const createProduct = async (product: {
+  name: string;
+  description: string;
+  price: number;
+  image: string;
+  stock: number;
+}, token: string) => {
+  const response = await fetch('http://localhost:3000/products/create', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(product),
+  });
+
+  if (!response.ok) {
+    const data = await response.json();
+    throw new Error(data.message || 'Erro ao criar produto');
+  }
+
+  return response.json();
+};
+
+// ADICIONAR UM ITEM AO CARRINHO
+
+export const addToCart = async (productId: string, token: string) => {
+  const res = await fetch('http://localhost:3000/cart/add', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ productId }),
+  });
+
+  if (!res.ok) {
+    const err = await res.json();
+    throw new Error(err.message || 'Erro ao adicionar ao carrinho');
+  }
+
+  return await res.json();
+};
+
+
+// BUSCAR O CARRINHO DE UM USUARIO
+export const fetchCart = async (userId: string, token: string) => {
+  const response = await fetch(`http://localhost:3000/cart/${userId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!response.ok) {
+    const data = await response.json();
+    throw new Error(data.message || 'Erro ao buscar carrinho');
+  }
+
+  return response.json();
+};
+
+// CHECKOUT SIMULADO
+export const checkout = async (token: string) => {
+  const response = await fetch('http://localhost:3000/checkout', {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!response.ok) {
+    const data = await response.json();
+    throw new Error(data.message || 'Erro no checkout');
+  }
+
+  return response.json();
+};
+
+export const getAuth = () => {
+  return {
+    token: localStorage.getItem('token') || '',
+    userId: localStorage.getItem('userId') || '',
+  };
+};

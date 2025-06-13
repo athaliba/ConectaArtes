@@ -10,6 +10,10 @@ import Footer from './components/Footer';
 import Login from './components/Login';
 import Register from './components/Register';
 
+import SearchComponent from './components/SearchComponent';
+import ProductForm from './components/ProductForm';
+import Cart from './components/Cart';
+import Sobre from './components/Sobre';
 
 function App() {
   const [loadingAuth, setLoadingAuth] = useState(true);
@@ -59,15 +63,17 @@ function App() {
         <Routes>
           {!token ? (
             <>
-              <Route
-                path="/login"
-                element={<Login onLoginSuccess={handleLoginSuccess} />}
-              />
+              <Route path="/login" element={<Login onLoginSuccess={handleLoginSuccess} />} />
               <Route path="/register" element={<Register />} />
               <Route path="*" element={<Navigate to="/login" replace />} />
             </>
           ) : (
             <>
+              <Route path="/" element={<SearchComponent token={token} userId={userId!} />} />
+              <Route path="/cadastro-produto" element={<ProductForm token={token} />} />
+              <Route path="/carrinho" element={<Cart token={token} userId={userId!} />} />
+              <Route path="*" element={<Navigate to="/" replace />} />
+              <Route path="/sobre" element={<Sobre />} />
             </>
           )}
         </Routes>

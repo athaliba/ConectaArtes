@@ -20,14 +20,14 @@ const Footer = () => {
         </a>
 
         <a
-          href="https://github.com/juliaiervese"
+          href="https://github.com/J0hnny4"
           target="_blank"
           rel="noopener noreferrer"
           className="text-center hover:bg-red-600 p-2 rounded-full transition-colors duration-300 flex items-center gap-2 sm:w-1/2 md:w-auto"
         >
           <img
             src={github}
-            alt="Julia Ierseve"
+            alt="João Vitor"
             className="w-12 h-12 rounded-full"
           />
           <p className="text-sm">João Vitor</p>

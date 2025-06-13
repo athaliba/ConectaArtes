@@ -30,24 +30,19 @@ const Header: React.FC<HeaderProps> = ({ onLogout, isLoggedIn }) => {
             >
               HOME
             </button>
+
             <button
-              onClick={() => navigate('/favoritos')}
+              onClick={() => navigate('/cadastro-produto')}
               className="text-white text-xl font-bold cursor-pointer hover:text-red-300 transition-colors"
             >
-              FAVORITOS
-            </button>
-            <button
-              onClick={() => navigate('/historico')}
-              className="text-white text-xl font-bold cursor-pointer hover:text-red-300 transition-colors"
-            >
-              HISTÓRICO
+              CADASTRAR PRODUTO
             </button>
 
             <button
-              onClick={() => navigate('/comentarios')}
+              onClick={() => navigate('/carrinho')}
               className="text-white text-xl font-bold cursor-pointer hover:text-red-300 transition-colors"
             >
-              COMENTÁRIOS
+              CARRINHO
             </button>
 
             <button
