@@ -2,7 +2,7 @@
 
 export const loginUser = async (emailOrUsername: string, password: string) => {
   try {
-    const response = await fetch('https://backend-rankeat.vercel.app/users/login', {
+    const response = await fetch('http://localhost:3000/users/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -32,7 +32,7 @@ export const loginUser = async (emailOrUsername: string, password: string) => {
 
 export const registerUser = async (name: string, username: string, email: string, password: string) => {
   try {
-    const response = await fetch('https://backend-rankeat.vercel.app/users/register', {
+    const response = await fetch('http://localhost:3000/users/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -54,154 +54,3 @@ export const registerUser = async (name: string, username: string, email: string
     }
   }
 };
-
-// FAVORITOS
-
-export const fetchFavoritos = async (userId: string, token: string) => {
-  try {
-    const response = await fetch(`https://backend-rankeat.vercel.app/favorites/${userId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || 'Erro ao buscar favoritos');
-    }
-
-    return await response.json();
-  } catch (error: unknown) {
-    if (error instanceof Error) {
-      throw new Error(error.message || 'Erro inesperado ao buscar favoritos');
-    } else {
-      throw new Error('Erro inesperado ao buscar favoritos');
-    }
-  }
-};
-
-export const addFavorito = async (
-  favoritoData: {
-    userId: string;
-    restaurantId: string;
-    restaurantName: string;
-    restaurantLocation: string;
-  },
-  token: string
-) => {
-  try {
-    const response = await fetch(`https://backend-rankeat.vercel.app/favorites`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(favoritoData),
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || 'Erro ao adicionar favorito');
-    }
-
-    return await response.json();
-  } catch (error: unknown) {
-    if (error instanceof Error) {
-      throw new Error(error.message || 'Erro inesperado ao adicionar favorito');
-    } else {
-      throw new Error('Erro inesperado ao adicionar favorito');
-    }
-  }
-};
-
-export const removeFavorito = async (
-  userId: string,
-  restaurantId: string,
-  token: string
-) => {
-  try {
-    const response = await fetch(`https://backend-rankeat.vercel.app/favorites/${userId}/${restaurantId}`, {
-      method: 'DELETE',
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || 'Erro ao remover favorito');
-    }
-
-    return await response.json();
-  } catch (error: unknown) {
-    if (error instanceof Error) {
-      throw new Error(error.message || 'Erro inesperado ao remover favorito');
-    } else {
-      throw new Error('Erro inesperado ao remover favorito');
-    }
-  }
-};
-
-// HISTÓRICO
-
-export const fetchHistorico = async (token: string, limit = 10) => {
-  try {
-    const response = await fetch(`https://backend-rankeat.vercel.app/search-history?limit=${limit}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || 'Erro ao buscar histórico');
-    }
-
-    return await response.json();
-  } catch (error: unknown) {
-    if (error instanceof Error) {
-      throw new Error(error.message || 'Erro inesperado ao buscar histórico');
-    } else {
-      throw new Error('Erro inesperado ao buscar histórico');
-    }
-  }
-};
-
-
-export const addHistorico = async (
-  buscaData: {
-    cep: string;
-    latitude: number;
-    longitude: number;
-    userId?: string;
-    ipAddress?: string;
-  },
-  token: string
-) => {
-  try {
-    const response = await fetch(`https://backend-rankeat.vercel.app/search-history`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(buscaData),
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || 'Erro ao adicionar histórico');
-    }
-
-    return await response.json();
-  } catch (error: unknown) {
-    if (error instanceof Error) {
-      throw new Error(error.message || 'Erro inesperado ao adicionar histórico');
-    } else {
-      throw new Error('Erro inesperado ao adicionar histórico');
-    }
-  }
-};
-
-
